@@ -1,0 +1,48 @@
+
+<h1>Successfuly Logged In!</h1>
+<a href="/login">Logout</a>
+<h2>Welcome @ViewBag.UserFirstName @ViewBag.UserLastName! </h2>
+
+<h3>@ViewBag.UserFirstName @ViewBag.UserLastName @ViewBag.UserId @ViewBag.UserEmail </h3>
+
+<div class = "balance"> Current Balance: $@ViewBag.UserBalance</div>
+
+<h4>UserID: @ViewBag.UserId</h4>
+@* <div> Deposit/Withdraw: @maxWithdraw</div> *@
+@model Transaction
+        <form action="/new" method="post">
+            <span asp-validation-for="Amount"></span>
+            <label asp-for="Amount">Deposit/Withdraw:</label>
+            <input type="number" asp-for="Amount">
+            <span asp-validation-for="UserId"></span>
+            <input type="hidden" asp-for="UserId" value="@ViewBag.UserId">
+            <input type="submit" value="Submit">
+        </form>
+<div>
+    <ul>
+        @{
+            ViewBag.Transactions.Reverse();
+            if(ViewBag.Transactions != null)
+            {
+                @foreach(var l in ViewBag.Transactions)
+                {
+                    <table style="width:50%">
+                    <tr>
+                        <th>Amount</th>
+                        <th>Created At</th> 
+                    </tr>
+                    <tr>
+                        <td>@l.Amount</td>
+                        <td>@l.CreatedAt</td> 
+                    </tr>
+                    </table>
+                } 
+            }
+            else
+            {
+                <p>You have no transactions</p>
+            }
+        }
+    
+    </ul>
+</div>
